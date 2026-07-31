@@ -5,7 +5,7 @@ import { UnifiedStaticData } from "./lib/unifiedStaticData";
 import { produce } from "immer";
 import { FirestoreError } from "firebase/firestore";
 import { quickUpdateTask, type QuickTaskData } from "./lib/networking/updateTask";
-import { Link, redirect, useLocation, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 const statusOptions = Object.keys(TaskStatus).map((v) => separateByCamelCase(v));
 
@@ -99,7 +99,7 @@ export default function QuickUpdate() {
     if (unifiedStaticState.fscn.find((k) => k == supposedFSCN)) {
       updateField("fscn", supposedFSCN);
     }
-  }, [searchParams]);
+  }, [searchParams, unifiedStaticState.fscn]);
 
   const inputStyle =
     "bg-gray-900 px-3 py-2 border rounded border-gray-800 placeholder-gray-500 outline-none focus:border-blue-500 w-full";

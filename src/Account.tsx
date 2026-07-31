@@ -9,6 +9,7 @@ import { fingerprint } from "./auth/Fingerprinting";
 import { obfuscate } from "./panel/Version";
 import { Link } from "react-router";
 import DeviceQR from "./auth/DeviceQR";
+import { USDUsingStoredConfig } from "./lib/unifiedStaticData";
 
 export default function Account() {
   const authContext = useContext(AuthContext);
@@ -36,6 +37,7 @@ export default function Account() {
             {authContext.claims?.verified ? 1 : 0}
             {authContext.claims?.feedAllow ? 1 : 0}
             {authContext.isAllowedThisDevice ? 1 : 0}
+            {USDUsingStoredConfig ? 1 : 0}
           </p>
         </div>
       </div>

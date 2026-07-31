@@ -29,7 +29,7 @@ export default function USD_Encrypter({ text }: { text: string }) {
         <button 
           className="bg-gray-800 border border-gray-500 rounded p-2 px-4 flex gap-2 items-center cursor-pointer disabled:opacity-40 disabled:cursor-auto" 
           onClick={() => {
-            if (!!validateUSDJSON(text)) return;
+            if (validateUSDJSON(text)) return;
             if (!privateKey) return;
             const json = JSON.parse(text);
             const msg = new TextEncoder().encode(btoa(JSON.stringify(json)));

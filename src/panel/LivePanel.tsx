@@ -18,11 +18,11 @@ export default function LivePanel({ fscn }: { fscn: string }) {
   const unifiedStaticState = useContext(UnifiedStaticData);
   const feedManager = useContext(FeedManager)
 
-  useEffect((() => {
+  useEffect(() => {
     (async () => {
       await feedManager.acquireFeed(fscn)
     })();
-  }), [feedManager])
+  }, [feedManager, fscn])
 
   return (
     <div

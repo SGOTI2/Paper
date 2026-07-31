@@ -1,5 +1,5 @@
 // AND DON'T FORGET TO **SMASH** THAT LIKE BUTTON!!!!!
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "./firebase";
 import type { Task } from "../Task";
 import type { Unsubscribe } from "firebase/database";

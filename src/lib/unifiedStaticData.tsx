@@ -41,6 +41,8 @@ if (storedUSDRaw && storedUSDVersionRaw) {
   }
 }
 
+export const USDUsingStoredConfig = USDUsingStored;
+
 const data: ContextType = StoredData ?? USDConfig; 
 
 export function UnifiedStaticDataProvider({ children }: { children: ReactNode }) {

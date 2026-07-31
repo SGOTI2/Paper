@@ -6,7 +6,7 @@ import { produce } from "immer";
 import type { TaskData } from "./lib/networking/sendTask";
 import sendTask from "./lib/networking/sendTask";
 import { FirestoreError, Timestamp } from "firebase/firestore";
-import { fullUpdateTask, quickUpdateTask } from "./lib/networking/updateTask";
+import { fullUpdateTask } from "./lib/networking/updateTask";
 
 const statusOptions = Object.keys(TaskStatus).map((v) => separateByCamelCase(v));
 const priorityOptions = Object.keys(TaskPriority).map((v) => separateByCamelCase(v));
