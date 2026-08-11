@@ -6,6 +6,9 @@ import { produce } from "immer";
 import { FirestoreError } from "firebase/firestore";
 import { quickUpdateTask, type QuickTaskData } from "./lib/networking/updateTask";
 import { Link, useSearchParams } from "react-router";
+import { cnw } from "./lib/tailwindUtil";
+import { MdCheck } from "react-icons/md";
+import deleteTask from "./lib/networking/deleteTask";
 
 const statusOptions = Object.keys(TaskStatus).map((v) => separateByCamelCase(v));
 
@@ -30,6 +33,7 @@ export default function QuickUpdate() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [loading, setLoading] = useState(false);
+  const [willDelete, setWillDelete] = useState(false); // AND THIS VIDEO'S SPONSOR IS **DELETE ME**!!!!!!
   const [err, setErr] = useState<string | null>();
 
   function updateField<K extends keyof FormData>(
@@ -44,7 +48,7 @@ export default function QuickUpdate() {
   function validate(values: FormData): ValidationErrors {
     const issues: ValidationErrors = {};
 
-    if (values.status < 0)
+    if (values.status < 0 && !willDelete) // IDC about weather the status is correct if were deleting it anyways
       issues.status = "Please select a status.";
 
     if (!values.fscn.trim())
@@ -77,7 +81,11 @@ export default function QuickUpdate() {
     setLoading(true);
 
     try {
-      await quickUpdateTask(form.fscn.trim(), data);
+      if (willDelete) {
+        await deleteTask(form.fscn.trim(), data.pid);
+      } else {
+        await quickUpdateTask(form.fscn.trim(), data);
+      }
     } catch (e: any) {
       if ((e as FirestoreError).code == "not-found") {
         setErr("That part number does not exist for the selected manufacturer")
@@ -160,11 +168,12 @@ export default function QuickUpdate() {
             Status
           </label>
           <select
-            className={inputStyle}
+            className={cnw(inputStyle, "disabled:opacity-50")}
             value={form.status}
             onChange={(e) =>
               updateField("status", Number(e.target.value))
             }
+            disabled={willDelete}
           >
             {statusOptions.map((option, index) => (
               <option key={option} value={index}>
@@ -175,14 +184,39 @@ export default function QuickUpdate() {
           {errorText("status")}
         </div>
 
+        <div className="md:col-span-2 pt-2">
+          <label className={cnw(labelStyle, "flex gap-2")} htmlFor="deleteMe">
+            <div className={cnw(
+              "size-6 outline outline-gray-500 rounded flex items-center justify-center", 
+              "bg-red-500 outline-red-500 outline-offset-2", willDelete
+            )}>
+              <MdCheck className={cnw("hidden", !willDelete)}/>
+            </div>
+            Delete Mode
+          </label>
+          <input
+            id="deleteMe"
+            type="checkbox"
+            className={cnw(inputStyle, "hidden")}
+            value={form.part}
+            onChange={(e) =>
+              setWillDelete(e.target.checked)
+            }
+          />
+          {errorText("part")}
+        </div>
+
         <div className="md:col-span-2">
           <div className="flex gap-3">
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className={cnw(
+                "inline-flex items-center rounded-lg bg-blue-600 hover:bg-blue-700 px-5 py-2.5 font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-60",
+                "bg-red-600 hover:bg-red-700", willDelete
+              )}
             >
-              Update
+              {willDelete ? "Delete" : "Update"}
 
               {loading && (
                 <svg
