@@ -8,6 +8,9 @@ import { getUserData } from "../lib/networking/getUserData";
 import { fingerprint } from "./Fingerprinting";
 
 type ContextType = {
+  userDataValid: boolean,
+  claimsDataValid: boolean,
+  jwtDataValid: boolean,
   user?: User,
   setUser: (user: User | undefined) => void,
   setClaims: (claims: ParsedToken | undefined) => void,
@@ -16,7 +19,7 @@ type ContextType = {
   isAllowedThisDevice?: boolean
 }
 
-const providerlessContext: ContextType = {setUser: () => {}, setClaims: () => {}, forceDataReload: () => {}}
+const providerlessContext: ContextType = {userDataValid: false, claimsDataValid: false, jwtDataValid: false, setUser: () => {}, setClaims: () => {}, forceDataReload: () => {}}
 
 export const AuthContext = createContext(providerlessContext)
 export const Auth = app ? getAuth(app) : app
@@ -25,6 +28,9 @@ if (Auth) {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const [userDataValid, setUserDataValid] = useState<boolean>(false);
+  const [claimsDataValid, setClaimsDataValid] = useState<boolean>(false);
+  const [jwtDataValid, setJwtDataValid] = useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>(Auth?.currentUser ?? undefined);
   const [claims, setClaims] = useState<ParsedToken | undefined>(undefined);
   const [isAllowedThisDevice, setAllowedOnThisDevice] = useState<boolean | undefined>(undefined);
@@ -40,21 +46,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     Auth?.onAuthStateChanged((user) => {
       setUser(user ?? undefined);
+      setUserDataValid(true);
       if (user) {
         user.getIdTokenResult().then((token) => {
           setClaims(token.claims);
+          setClaimsDataValid(true);
         })
         getUserData(user.uid).then((userData) => {
           setAllowedOnThisDevice(userData?.allowedDevices.indexOf(fingerprint) != -1);
+          setJwtDataValid(true);
         })
       } else {
         setClaims(undefined)
+        setClaimsDataValid(true);
+        setJwtDataValid(true);
       }
     })
   }, [])
 
   return (
     <AuthContext value={{
+      userDataValid: userDataValid,
+      claimsDataValid: claimsDataValid,
+      jwtDataValid: jwtDataValid,
       user: user,
       setUser: setUser,
       setClaims: setClaims,

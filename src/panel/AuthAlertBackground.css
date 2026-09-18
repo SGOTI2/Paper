@@ -1,0 +1,22 @@
+.authAlert {
+  background-image: 
+    repeating-linear-gradient(
+      -45deg, 
+      transparent, 
+      transparent 1rem,
+      #000 1rem,
+      #000 2rem
+    );
+  background-size: 200% 200%;
+  background-position-x: 0px;
+  animation: StripedBackground linear 1s infinite;
+}
+
+@keyframes StripedBackground {
+  0% {
+    background-position-x: 0px;
+  }
+  100% {
+    background-position-x: -2.9rem;
+  }
+}

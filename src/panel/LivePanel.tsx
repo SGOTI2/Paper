@@ -31,7 +31,7 @@ export default function LivePanel({ fscn }: { fscn: string }) {
     >
       <h4 className="text-lg lg:text-3xl font-bold">{unifiedStaticState.fscnMapping[fscn]}</h4>
       <div className="flex-1 relative overflow-hidden mt-3">
-        {(!feedManager.feeds[fscn]            && (<LivePanelError>FSCN "{fscn}" does not have a feed in feedManager</LivePanelError>)) ||
+        {(!feedManager.feeds[fscn]           && (<LivePanelError>FSCN "{fscn}" does not have a feed in feedManager</LivePanelError>)) ||
         (feedManager.feeds[fscn].isAcquiring && (<LivePanelError>Acquiring Live Feed</LivePanelError>)) ||
         (!feedManager.feeds[fscn].available  && (<LivePanelError>Feed Unavilable - Not attempting to connect</LivePanelError>)) ||
         (feedManager.feeds[fscn].data.length == 0 && (<h6 className="h-full flex items-center justify-center text-gray-500">No Parts</h6>)) ||

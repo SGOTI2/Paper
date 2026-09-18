@@ -8,6 +8,8 @@ import { AuthContext } from "../auth/AuthWrapper";
 import { Link } from "react-router";
 import { fingerprint } from "../auth/Fingerprinting";
 
+import './AuthAlertBackground.css'
+
 export default function PanelAggregator() {
   const authContext = useContext(AuthContext);
   const unifiedStaticState = useContext(UnifiedStaticData);
@@ -33,6 +35,7 @@ export default function PanelAggregator() {
           <small className="text-xs text-gray-500">{authContext.user?.uid ?? "Not logged in"}</small>
           <small className="text-xs text-gray-500">{obfuscate(fingerprint)}</small>
         </p>
+        {(!authContext.userDataValid || !authContext.claimsDataValid || !authContext.jwtDataValid) && <p className="bg-red-500 p-2 mt-4 w-full text-center text-shadow-lg text-shadow-black authAlert">Authentication is in progress</p>}
       </div>
     </div>
     )
