@@ -6,6 +6,7 @@ import { execSync } from 'node:child_process';
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { viteSingleFile } from "vite-plugin-singlefile";
+import packageConfig from "./package.json";
 
 const configFile = existsSync(resolve("config.local.ts"))
   ? resolve("config.local.ts")
@@ -29,5 +30,9 @@ export default defineConfig({
     __GIT_HASH__: JSON.stringify(
       execSync("git rev-parse --short HEAD").toString().trim()
     ),
+    __MODIFIED__: JSON.stringify(
+      execSync("git status --porcelain --untracked-files=yes | wc -l").toString().trim()
+    ),
+    __VERSION__: JSON.stringify(packageConfig.version)
   },
 })

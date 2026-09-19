@@ -51,10 +51,17 @@ export function FeedManagerProvider({ children }: { children: ReactNode }) {
       draft[fscn].data = data;
       draft[fscn].available = true;
       draft[fscn].isAcquiring = false;
-      draft[fscn].unsubscribe = subscribe(fscn, (newTask) => {
+      draft[fscn].unsubscribe = subscribe(fscn, (newTask, del) => {
         setFeeds_(produce((draft) => {
-          if (draft[fscn].data.findIndex((task: Task) => task.id == newTask.id) == -1) {
+          const index = draft[fscn].data.findIndex((task: Task) => task.id == newTask.id);
+          if (del) {
+            draft[fscn].data.splice(index, 1)
+            return;
+          }
+          if (index == -1) {
             draft[fscn].data.push(newTask)
+          } else { // Aksually this is a update not a new task
+            draft[fscn].data[index] = newTask
           }
         }))
       })

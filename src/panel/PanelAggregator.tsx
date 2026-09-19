@@ -39,6 +39,28 @@ export default function PanelAggregator() {
       </div>
     </div>
     )
+  } else if (!authContext.cachePersistenceAccessible) {
+    return (
+      <div className="flex-1 h-full flex items-center justify-center">
+        <div className="max-w-96">
+          <div className="flex gap-2">
+            <h1 className="text-6xl font-bold tracking-wider">423</h1>
+            <div className="flex flex-col justify-between mt-1">
+              <h2 className="text-xl inline-block align-bottom">Resource Locked</h2>
+              <hr className="border-gray-500"/>
+              <Link to={"/"} className="text-blue-400">Return Home</Link>
+            </div>
+          </div>
+          <p className="pt-3"><b className="tracking-wide pb-2">Your device's persistent IDB storage is likely mutexed by another tab at this time.</b><br/><br/>To prevent cache and network overuse issues, you are not allowed to view the live panels while another, staler, RPTS tab is open. Close it and then reopen it after reloading this page to facilitate add and watch functionality concurrently.</p>
+          <p className="flex flex-col text-xs text-gray-500 mt-3">
+            Authority:
+            <small className="text-xs text-gray-500">{authContext.user?.uid ?? "Not logged in"}</small>
+            <small className="text-xs text-gray-500">{obfuscate(fingerprint)}</small>
+          </p>
+          {(!authContext.userDataValid || !authContext.claimsDataValid || !authContext.jwtDataValid) && <p className="bg-red-500 p-2 mt-4 w-full text-center text-shadow-lg text-shadow-black authAlert">Authentication is in progress</p>}
+        </div>
+      </div>
+    )
   }
 
   return (

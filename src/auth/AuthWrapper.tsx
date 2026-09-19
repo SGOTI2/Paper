@@ -11,6 +11,7 @@ type ContextType = {
   userDataValid: boolean,
   claimsDataValid: boolean,
   jwtDataValid: boolean,
+  cachePersistenceAccessible: boolean,
   user?: User,
   setUser: (user: User | undefined) => void,
   setClaims: (claims: ParsedToken | undefined) => void,
@@ -19,7 +20,7 @@ type ContextType = {
   isAllowedThisDevice?: boolean
 }
 
-const providerlessContext: ContextType = {userDataValid: false, claimsDataValid: false, jwtDataValid: false, setUser: () => {}, setClaims: () => {}, forceDataReload: () => {}}
+const providerlessContext: ContextType = {userDataValid: false, claimsDataValid: false, jwtDataValid: false, cachePersistenceAccessible: true, setUser: () => {}, setClaims: () => {}, forceDataReload: () => {}}
 
 export const AuthContext = createContext(providerlessContext)
 export const Auth = app ? getAuth(app) : app
@@ -31,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userDataValid, setUserDataValid] = useState<boolean>(false);
   const [claimsDataValid, setClaimsDataValid] = useState<boolean>(false);
   const [jwtDataValid, setJwtDataValid] = useState<boolean>(false);
+  const [cachePersistenceAccessible, setCachePersistenceAccessible] = useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>(Auth?.currentUser ?? undefined);
   const [claims, setClaims] = useState<ParsedToken | undefined>(undefined);
   const [isAllowedThisDevice, setAllowedOnThisDevice] = useState<boolean | undefined>(undefined);
@@ -54,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         })
         getUserData(user.uid).then((userData) => {
           setAllowedOnThisDevice(userData?.allowedDevices.indexOf(fingerprint) != -1);
+          setCachePersistenceAccessible(userData?.cachePersistenceAccessible ?? true);
           setJwtDataValid(true);
         })
       } else {
@@ -69,6 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       userDataValid: userDataValid,
       claimsDataValid: claimsDataValid,
       jwtDataValid: jwtDataValid,
+      cachePersistenceAccessible: cachePersistenceAccessible,
       user: user,
       setUser: setUser,
       setClaims: setClaims,
