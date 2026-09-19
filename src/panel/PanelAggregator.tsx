@@ -51,7 +51,7 @@ export default function PanelAggregator() {
               <Link to={"/"} className="text-blue-400">Return Home</Link>
             </div>
           </div>
-          <p className="pt-3"><b className="tracking-wide pb-2">Your device's persistent IDB storage is likely mutexed by another tab at this time.</b><br/><br/>To prevent cache and network overuse issues, you are not allowed to view the live panels while another, staler, RPTS tab is open. Close it and then reopen it after reloading this page to facilitate add and watch functionality concurrently.</p>
+          <p className="pt-3"><b className="tracking-wide pb-2">Your device's persistent IDB storage is likely mutexed by another tab at this time.</b><br/><br/>To prevent cache and network overuse issues, you are not allowed to view the live panels while another, staler, Paper tab is open. Close it and then reopen it after reloading this page to facilitate add and watch functionality concurrently.</p>
           <p className="flex flex-col text-xs text-gray-500 mt-3">
             Authority:
             <small className="text-xs text-gray-500">{authContext.user?.uid ?? "Not logged in"}</small>
@@ -70,7 +70,7 @@ export default function PanelAggregator() {
           <Time />
         </div>
         <small className="flex-1 text-center text-gray-500 pt-1 hidden lg:block">
-          RPTS <Version />
+          Paper <Version />
         </small>
         <div className="flex-1 text-right pt-5">
           <h3 className="text-base md:text-xl">Parts</h3>

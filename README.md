@@ -1,4 +1,4 @@
-# RPTS - Robotics Part Tracking System
+# Paper - Robotics Part Tracking System
 ### Setup
 ```zsh
 npm i
