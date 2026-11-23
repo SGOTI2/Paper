@@ -5,5 +5,5 @@ export default {
   storageBucket: "unconfigured",
   messagingSenderId: "unconfigured",
   appId: "unconfigured",
-  enableNetworking: false
+  enableNetworking: true
 }

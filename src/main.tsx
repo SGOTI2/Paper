@@ -54,7 +54,7 @@ createRoot(document.getElementById('root')!).render(
         You need to setup firebase to use this project<br/>
         Contact SGOTI2 on 1511 for more details<br/>
         <small className="text-base">Sorry, I don't want everybody using up my free quota :(</small><br/>
-        <small className="text-xs text-gray-600">Remember to reload the vite server</small></h1>
+        <small className="text-xs text-gray-600">Remember to reload the vite server if you fixed it</small></h1>
     )}
   </StrictMode>
 )

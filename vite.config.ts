@@ -31,7 +31,9 @@ export default defineConfig({
       execSync("git rev-parse --short HEAD").toString().trim()
     ),
     __MODIFIED__: JSON.stringify(
-      execSync("git status --porcelain --untracked-files=yes | wc -l").toString().trim()
+      process.platform === "win32" 
+        ? execSync('git status --porcelain --untracked-files=yes | find /c /v ""').toString().trim()
+        : execSync("git status --porcelain --untracked-files=yes | wc -l").toString().trim()
     ),
     __VERSION__: JSON.stringify(packageConfig.version)
   },

@@ -35,7 +35,10 @@ export default function PanelAggregator() {
           <small className="text-xs text-gray-500">{authContext.user?.uid ?? "Not logged in"}</small>
           <small className="text-xs text-gray-500">{obfuscate(fingerprint)}</small>
         </p>
-        {(!authContext.userDataValid || !authContext.claimsDataValid || !authContext.jwtDataValid) && <p className="bg-red-500 p-2 mt-4 w-full text-center text-shadow-lg text-shadow-black authAlert">Authentication is in progress</p>}
+        {(!authContext.authenticationChecked || !authContext.userDataValid || !authContext.jwtDataValid) && <p className="bg-red-500 p-2 mt-4 w-full text-center text-shadow-lg text-shadow-black authAlert">
+          Authentication is in progress
+          <small className="text-xs">{!authContext.authenticationChecked ? "Awaiting auth response" : (!authContext.jwtDataValid ? "Awiting JWT" : "Awaiting user data response")}</small>
+        </p>}
       </div>
     </div>
     )
@@ -51,13 +54,13 @@ export default function PanelAggregator() {
               <Link to={"/"} className="text-blue-400">Return Home</Link>
             </div>
           </div>
-          <p className="pt-3"><b className="tracking-wide pb-2">Your device's persistent IDB storage is likely mutexed by another tab at this time.</b><br/><br/>To prevent cache and network overuse issues, you are not allowed to view the live panels while another, staler, Paper tab is open. Close it and then reopen it after reloading this page to facilitate add and watch functionality concurrently.</p>
+          <p className="pt-3"><b className="tracking-wide pb-2">Your device's persistent IDB storage is likely mutexed by another tab at this time.</b><br/><br/>To prevent cache and network overuse issues, you are not allowed to view the live panels while another, staler, Paper tab is open. If this is not the case, your browser still not allowing the use of IDB and this page will not function, please attempt to repair it.</p>
           <p className="flex flex-col text-xs text-gray-500 mt-3">
             Authority:
             <small className="text-xs text-gray-500">{authContext.user?.uid ?? "Not logged in"}</small>
             <small className="text-xs text-gray-500">{obfuscate(fingerprint)}</small>
           </p>
-          {(!authContext.userDataValid || !authContext.claimsDataValid || !authContext.jwtDataValid) && <p className="bg-red-500 p-2 mt-4 w-full text-center text-shadow-lg text-shadow-black authAlert">Authentication is in progress</p>}
+          {(!authContext.userDataValid || !authContext.authenticationChecked || !authContext.jwtDataValid) && <p className="bg-red-500 p-2 mt-4 w-full text-center text-shadow-lg text-shadow-black authAlert">Authentication is in progress</p>}
         </div>
       </div>
     )

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import USDConfig from "../../USD.cfg.ts"
+import USDConfig from "../../USD.cfg.ts" // Getting an error? RTFM
 import USD_Encrypter from "./USD_Encrypter2000.tsx";
 
 function sameElements<T>(a: Array<T>, b: Array<T>): boolean {

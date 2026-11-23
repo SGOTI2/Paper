@@ -9,8 +9,8 @@ import { fingerprint } from "./Fingerprinting";
 
 type ContextType = {
   userDataValid: boolean,
-  claimsDataValid: boolean,
   jwtDataValid: boolean,
+  authenticationChecked: boolean,
   cachePersistenceAccessible: boolean,
   user?: User,
   setUser: (user: User | undefined) => void,
@@ -20,7 +20,7 @@ type ContextType = {
   isAllowedThisDevice?: boolean
 }
 
-const providerlessContext: ContextType = {userDataValid: false, claimsDataValid: false, jwtDataValid: false, cachePersistenceAccessible: true, setUser: () => {}, setClaims: () => {}, forceDataReload: () => {}}
+const providerlessContext: ContextType = {userDataValid: false, jwtDataValid: false, authenticationChecked: false, cachePersistenceAccessible: true, setUser: () => {}, setClaims: () => {}, forceDataReload: () => {}}
 
 export const AuthContext = createContext(providerlessContext)
 export const Auth = app ? getAuth(app) : app
@@ -30,7 +30,7 @@ if (Auth) {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [userDataValid, setUserDataValid] = useState<boolean>(false);
-  const [claimsDataValid, setClaimsDataValid] = useState<boolean>(false);
+  const [authenticationChecked, setAuthenticationChecked] = useState<boolean>(false);
   const [jwtDataValid, setJwtDataValid] = useState<boolean>(false);
   const [cachePersistenceAccessible, setCachePersistenceAccessible] = useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>(Auth?.currentUser ?? undefined);
@@ -48,21 +48,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     Auth?.onAuthStateChanged((user) => {
       setUser(user ?? undefined);
-      setUserDataValid(true);
+      setAuthenticationChecked(true);
       if (user) {
         user.getIdTokenResult().then((token) => {
           setClaims(token.claims);
-          setClaimsDataValid(true);
+          setJwtDataValid(true);
         })
         getUserData(user.uid).then((userData) => {
           setAllowedOnThisDevice(userData?.allowedDevices.indexOf(fingerprint) != -1);
           setCachePersistenceAccessible(userData?.cachePersistenceAccessible ?? true);
-          setJwtDataValid(true);
+          setUserDataValid(true);
         })
       } else {
         setClaims(undefined)
-        setClaimsDataValid(true);
         setJwtDataValid(true);
+        setUserDataValid(true);
       }
     })
   }, [])
@@ -70,8 +70,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext value={{
       userDataValid: userDataValid,
-      claimsDataValid: claimsDataValid,
       jwtDataValid: jwtDataValid,
+      authenticationChecked: authenticationChecked,
       cachePersistenceAccessible: cachePersistenceAccessible,
       user: user,
       setUser: setUser,
