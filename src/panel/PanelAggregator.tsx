@@ -29,7 +29,7 @@ export default function PanelAggregator() {
             <Link to={"/"} className="text-blue-400">Return Home</Link>
           </div>
         </div>
-        {_403 && !authContext.claims?.isAllowedThisDevice && <p className="pt-3">This <u className="decoration-wavy decoration-1 underline-offset-4 decoration-red-500">device</u> is not allowed to view the live feed</p>}
+        {_403 && !authContext.claims?.isAllowedThisDevice && !!authContext.claims?.feedAllow && <p className="pt-3">This <u className="decoration-wavy decoration-1 underline-offset-4 decoration-red-500">device</u> is not allowed to view the live feed</p>}
         <p className="flex flex-col text-xs text-gray-500 mt-3">
           Authority:
           <small className="text-xs text-gray-500">{authContext.user?.uid ?? "Not logged in"}</small>

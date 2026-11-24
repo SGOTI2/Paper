@@ -17,7 +17,7 @@ export default function DeviceAuth() {
   return (
     <div className="p-5">
       <h1 className="text-3xl font-bold">Authenticate New Device</h1>
-      <p className="text-gray-500 mb-2">Scan a device QR code to authorize a new device to view the live feed if they have the permissions to do so.</p>
+      <p className="text-gray-500 mb-2">Scan a device QR code to authorize a new device to view the live feed or run the tablet mode if they have the permissions to do so.</p>
       <p className="font-bold mb-5 bg-gray-800 p-2 rounded w-fit">After authorization the device authorized will need to click "Refresh User Data Cache"</p>
       <div className='flex justify-evenly items-center'>
         <div>

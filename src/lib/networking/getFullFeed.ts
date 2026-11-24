@@ -1,10 +1,11 @@
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, getDocsFromCache, query } from "firebase/firestore";
 import { db } from "./firebase";
 import { convertFromDoc } from "./convertDoc";
 
-export default async function GetFullFeed(fscn: string) {
+export default async function GetFullFeed(fscn: string, usingCache: boolean = false) {
   console.log("req")
-  const docs = await getDocs(query(collection(db!, "/"+fscn)));
+  const query_ = query(collection(db!, "/"+fscn));
+  const docs = usingCache ? await getDocsFromCache(query_) : await getDocs(query_);
 
   if (docs.empty) {
     console.log("No docs for fscn:", fscn)

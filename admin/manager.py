@@ -15,7 +15,7 @@ import firebase_admin
 creds = firebase_admin.credentials.Certificate(creds_json)
 app = firebase_admin.initialize_app(credential=creds)
 
-print("\n\nSuccessfully using AdminSDK authenticated in", app.project_id, "\n")
+print("\n\nSuccessfully using AdminSDK; authenticated for", app.project_id, "\nPlease wait while the management console loads\n")
 
 import json
 import firebase_admin
@@ -56,6 +56,7 @@ def list_users():
   table.add_column("Display Name")
   table.add_column("Verified")
   table.add_column("Live Feed")
+  table.add_column("Tablet")
   table.add_column("Admin")
   table.add_column("Needs Update")
   table.add_column("Claims JSON")
@@ -78,6 +79,7 @@ def list_users():
         user.display_name or "",
         yesNo(claims.get("verified", False)),
         yesNo(claims.get("feedAllow", False)),
+        yesNo(claims.get("tabletAllowed", False)),
         yesNo(claims.get("admin", False)),
         yesNo(needs, True),
         str(claims),
@@ -105,9 +107,10 @@ def edit_user(user: _user_mgt.ExportedUserRecord):
       "Choose action",
       choices=[
         "Replace claims",
-        "Set verified claim",
-        "Set feedAllow claim",
-        "Set admin claim",
+        "Set 'verified' claim",
+        "Set 'feedAllow' claim",
+        "Set 'tabletAllowed' claim",
+        "Set 'admin' claim",
         "Clear claims",
         "Cancel"
       ]
@@ -121,7 +124,7 @@ def edit_user(user: _user_mgt.ExportedUserRecord):
       console.print("[green]Claims cleared.[/green]")
       return
 
-    if mode == "Set verified claim":
+    if mode == "Set 'verified' claim":
       boolean = questionary.select(
         "New verified claim",
         choices=[
@@ -136,7 +139,7 @@ def edit_user(user: _user_mgt.ExportedUserRecord):
       auth.set_custom_user_claims(user.uid, new_claims)
       return
     
-    if mode == "Set feedAllow claim":
+    if mode == "Set 'feedAllow' claim":
       boolean = questionary.select(
         "New feedAllow claim",
         choices=[
@@ -150,8 +153,23 @@ def edit_user(user: _user_mgt.ExportedUserRecord):
       new_claims = merged
       auth.set_custom_user_claims(user.uid, new_claims)
       return
+
+    if mode == "Set 'tabletAllowed' claim":
+          boolean = questionary.select(
+            "New tabletAllowed claim",
+            choices=[
+              "Yes",
+              "No"
+            ]
+          ).ask()
+          
+          merged = current.copy()
+          merged.update({ "tabletAllowed": boolean == "Yes" })
+          new_claims = merged
+          auth.set_custom_user_claims(user.uid, new_claims)
+          return
     
-    if mode == "Set admin claim":
+    if mode == "Set 'admin' claim":
       boolean = questionary.select(
         "New admin claim",
         choices=[

@@ -3,7 +3,8 @@ import { db } from "./firebase";
 import type { TaskData } from "./sendTask";
 
 export type QuickTaskData = {
-  status: number,
+  owner?: number,
+  status?: number,
   pid: number,
 }
 

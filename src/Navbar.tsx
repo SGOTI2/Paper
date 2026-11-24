@@ -1,4 +1,4 @@
-import { MdAdd, MdLiveTv, MdOutlineAccountCircle, MdUpdate } from "react-icons/md";
+import { MdAdd, MdLiveTv, MdOutlineAccountCircle, MdTablet, MdUpdate } from "react-icons/md";
 import { Link } from "react-router";
 import { cnw } from "./lib/tailwindUtil";
 import { useContext } from "react";
@@ -17,6 +17,7 @@ export default function Navbar({ className }: { className?: string }) {
       </div>
       <Link to={"/addTask"}  className="inline-flex justify-center items-center gap-1 h-6"><MdAdd size={24}/>Add Task</Link>
       <Link to={"/livefeed"} className="inline-flex justify-center items-center gap-1 h-6"><MdLiveTv size={24}/>Live</Link>
+      <Link to={"/tablet/login"} className="inline-flex justify-center items-center gap-1 h-6"><MdTablet size={24}/>Tablet</Link>
       <Link to={"/update"}   className="inline-flex justify-end items-center gap-1 h-6"><MdUpdate size={24}/>Update</Link>
       <Link to={"/account"}  className="inline-flex justify-end items-center gap-1 h-6">
         <MdOutlineAccountCircle size={24}/>

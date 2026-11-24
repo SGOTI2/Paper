@@ -150,6 +150,13 @@ export default function SINNCTManagement() {
           Inbed SINNCT in USD
         </button>
 
+        <button
+          onClick={() => {setFileContent([]); inbedSINNCT();}}
+          className="text-white p-2 px-3 rounded bg-red-500 cursor-pointer hover:bg-red-400 transition-colors"
+        >
+          Delete SINNCT
+        </button>
+
         <input
           type="file"
           accept=".csv"
@@ -163,6 +170,7 @@ export default function SINNCTManagement() {
             hover:file:bg-gray-500"
         />
       </div>
+      <small className='text-gray-500'>Opening a file imports its csv data into the table</small>
     </div>
   );
 }

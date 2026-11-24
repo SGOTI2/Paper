@@ -21,6 +21,10 @@ import UnifiedStaticDataUpdater from './USD_Updater.tsx';
 import UnifiedStaticDataCreator from './admin/USD_Creator.tsx';
 import SINNCTManagement from './admin/SINNCT_management.tsx';
 import FullUpdate from './FullUpdate.tsx';
+import { TabletGateway } from './tablet/TabletGateway.tsx';
+import TabletLogin from './tablet/TabletLogin.tsx';
+import TabletHome from './tablet/TabletHome.tsx';
+import TabletClaim from './tablet/actions/TabletClaim.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -46,6 +50,13 @@ createRoot(document.getElementById('root')!).render(
                 </Route>
                 <Route path="/" element={<Home />}/>
                 <Route path="/livefeed" element={<PanelAggregator />}/>
+                <Route path="/tablet" element={<TabletGateway />}>
+                  <Route path="login" element={<TabletLogin />}/>
+                  <Route path="home" element={<TabletHome />}/>
+                  <Route path="actions">
+                    <Route path="claim" element={<TabletClaim />}/>
+                  </Route>
+                </Route>
               </Routes>
             </HashRouter>
           </FeedManagerProvider>
