@@ -1,6 +1,6 @@
 export const TaskStatus = {
   NotStarted: 0,
-  Waiting: 1,
+  Hold: 1,
   InProgress: 2,
   Done: 3,
   Outdated: 4
@@ -25,5 +25,6 @@ export type Task = {
   part: number,
   qty: number,
   due: Date,
+  owner: number,
   id: string
 };

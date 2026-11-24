@@ -10,6 +10,7 @@ export function convertFromDoc(doc: DocumentData, id: string): Task {
     part: doc["pid"] as number,
     qty: doc["quantity"] as number,
     due: doc["due"].toDate() as Date,
-    id: id
+    id: id,
+    owner: doc["owner"] as number ?? -1
   };
 }

@@ -108,7 +108,8 @@ export default function TaskAdder() {
       priority: form.priority,
       pid: Number(form.part),
       quantity: Number(form.qty),
-      due: Timestamp.fromDate(new Date(form.due))
+      due: Timestamp.fromDate(new Date(form.due)),
+      owner: -1
     };
 
     setLoading(true);

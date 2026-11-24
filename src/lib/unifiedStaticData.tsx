@@ -1,19 +1,22 @@
 import { createContext, type ReactNode } from "react";
-import USDConfig from "../../USD.cfg.ts"
+import USDConfig from "../../USD.cfg.ts" // RTFM
 
 declare const __BUILD_TIME__: string;
 
 type ContextType = {
   subteamMapping: {
     [k: number]: string
-  },
+  }
   fscn: string[] // FireStore Collection Name - The internal name for a panel feed in the database
   fscnMapping: {
     [fscn: string]: string // FSCN -> Human Text
-  } 
+  }
+  SINNCT: { // Student Identification Number Name Conversion Table
+    [SID: number]: string // Student Identification Number
+  }
 }
 
-const providerlessContext: ContextType = {subteamMapping: {}, fscn: [], fscnMapping: {}}
+const providerlessContext: ContextType = {subteamMapping: {}, fscn: [], fscnMapping: {}, SINNCT: {}}
 
 export const UnifiedStaticData = createContext(providerlessContext)
 
@@ -43,7 +46,7 @@ if (storedUSDRaw && storedUSDVersionRaw) {
 
 export const USDUsingStoredConfig = USDUsingStored;
 
-const data: ContextType = StoredData ?? USDConfig; 
+const data: ContextType = StoredData ?? USDConfig;
 
 export function UnifiedStaticDataProvider({ children }: { children: ReactNode }) {
   return (

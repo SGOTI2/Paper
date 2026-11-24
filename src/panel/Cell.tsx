@@ -17,16 +17,16 @@ export default function Cell({ task, dataKey }: { task: Task, dataKey: keyof Tas
       className={cnw(
         "relative border border-gray-700 py-1.5 ps-2 overflow-hidden whitespace-nowrap",
         "bg-red-500/40",   dataKey == "priority" && task.priority == TaskPriority.High,
-        "bg-yellow-500/40",   dataKey == "priority" && task.priority == TaskPriority.Medium,
-        "bg-blue-500/40",   dataKey == "priority" && task.priority == TaskPriority.Low,
+        "bg-yellow-500/40",dataKey == "priority" && task.priority == TaskPriority.Medium,
+        "bg-blue-500/40",  dataKey == "priority" && task.priority == TaskPriority.Low,
         "bg-red-500/40",   dataKey == "status" && task.status == TaskStatus.NotStarted,
         "bg-green-500/40", dataKey == "status" && task.status == TaskStatus.InProgress,
         "bg-blue-500/40",  dataKey == "status" && task.status == TaskStatus.Done,
-        "bg-yellow-500/40",dataKey == "status" && task.status == TaskStatus.Waiting,
+        "bg-yellow-500/40",dataKey == "status" && task.status == TaskStatus.Hold,
         "bg-gray-500/40",  dataKey == "status" && task.status == TaskStatus.Outdated,
         "line-through", task.status == TaskStatus.Outdated,
-        "opacity-20", ([TaskStatus.Outdated, TaskStatus.Done] as number[]).includes(task.status),
-        "seeMe", task.priority == TaskPriority.Urgent || (task.due < new Date() && ([TaskStatus.InProgress, TaskStatus.Waiting, TaskStatus.NotStarted] as number[]).includes(task.status)),
+        "opacity-20", ([TaskStatus.Outdated, TaskStatus.Done, TaskStatus.Hold] as number[]).includes(task.status),
+        "seeMe", task.priority == TaskPriority.Urgent || (task.due < new Date() && ([TaskStatus.InProgress, TaskStatus.NotStarted] as number[]).includes(task.status)),
       )} 
       ref={ref}
     >
@@ -46,6 +46,7 @@ export default function Cell({ task, dataKey }: { task: Task, dataKey: keyof Tas
           else if (dataKey == "due")      return LocaleTime(task[dataKey]);
           else if (dataKey == "part")     return `P${task[dataKey].toString().padStart(3, "0")}`;
           else if (dataKey == "subteam")  return unifiedStaticState.subteamMapping[task[dataKey]] ?? "Not Configured";
+          else if (dataKey == "owner")    return unifiedStaticState.SINNCT[task[dataKey]] ?? (task[dataKey] == -1 ? "Unassigned" : "SID " + task[dataKey].toString());
           else return task[dataKey].toString()
         })()}
       </span>

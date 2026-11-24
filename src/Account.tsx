@@ -9,10 +9,11 @@ import { fingerprint } from "./auth/Fingerprinting";
 import { obfuscate } from "./panel/Version";
 import { Link } from "react-router";
 import DeviceQR from "./auth/DeviceQR";
-import { USDUsingStoredConfig } from "./lib/unifiedStaticData";
+import { UnifiedStaticData, USDUsingStoredConfig } from "./lib/unifiedStaticData";
 
 export default function Account() {
   const authContext = useContext(AuthContext);
+  const unifiedStaticState = useContext(UnifiedStaticData);
 
   return (
     <div className="flex-1 p-5">
@@ -34,10 +35,11 @@ export default function Account() {
           <p className="text-xs text-gray-500 md:text-end">
             {authContext.user?.uid ?? "Not logged in"}<br/>
             {obfuscate(fingerprint)}<br/>
-            {authContext.claims?.verified ? 1 : 0}
-            {authContext.claims?.feedAllow ? 1 : 0}
-            {authContext.isAllowedThisDevice ? 1 : 0}
-            {USDUsingStoredConfig ? 1 : 0}
+            VR{authContext.claims?.verified ? 1 : 0}&nbsp;
+            FA{authContext.claims?.feedAllow ? 1 : 0}&nbsp;
+            DA{authContext.isAllowedThisDevice ? 1 : 0}&nbsp;
+            SC{USDUsingStoredConfig ? 1 : 0}<br/>
+            SINNCT#{Object.keys(unifiedStaticState.SINNCT).length}
           </p>
         </div>
       </div>

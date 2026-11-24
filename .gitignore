@@ -30,3 +30,4 @@ dist-ssr
 *.pem
 USD.cfg.ts
 src/PUBLIC_KEY.ts
+SINNC.csv

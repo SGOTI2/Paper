@@ -8,7 +8,8 @@ export type TaskData = {
   priority: number,
   pid: number,
   quantity: number,
-  due: Timestamp
+  due: Timestamp,
+  owner: number
 }
 
 export default async function sendTask(fscn: string, data: TaskData) {

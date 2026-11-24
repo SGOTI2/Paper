@@ -1,6 +1,6 @@
-import { useState } from "react"
-import USDConfig from "../../USD.cfg.ts" // Getting an error? RTFM
+import { useContext, useState } from "react"
 import USD_Encrypter from "./USD_Encrypter2000.tsx";
+import { UnifiedStaticData } from "../lib/unifiedStaticData.tsx";
 
 function sameElements<T>(a: Array<T>, b: Array<T>): boolean {
   return (
@@ -54,16 +54,18 @@ export function validateUSDJSON(text: string): string | undefined {
     return `Error! ${e}`
   }
   if (!json) return "Something's wrong here";
-  if (!sameElements(Object.keys(json), ["subteamMapping", "fscn", "fscnMapping"])) return "You have something wrong with your keys, only 'subteamMapping', 'fscn' and 'fscnMapping' are allowed";
+  if (!sameElements(Object.keys(json), ["subteamMapping", "fscn", "fscnMapping", "SINNCT"])) return "You have something wrong with your keys, only 'subteamMapping', 'fscn', 'fscnMapping' and 'SINNCT' are allowed";
   if (!objectConformsTo(json["subteamMapping"], true)) return "subteamMapping is supposed to be an object of type [key: int]: string (int wrapped in quotes b/c json is stupid)";
   if (!arrayConformsTo(json["fscn"])) return "FSCN is supposed to be an array of strings";
   if (!objectConformsTo(json["fscnMapping"], false)) return "subteamMapping is supposed to be an object of type [key: string]: string";
   if (!matchesKeys(json["fscn"], json["fscnMapping"])) return "Each FSCN must have exactly one fscnMapping entry and vice versa";
+  if (!objectConformsTo(json["SINNCT"], true)) return "SINNCT is supposed to be an object of type [key: int]: string (int wrapped in quotes b/c json is stupid)";
 }
 
 
 export default function UnifiedStaticDataCreator() {
-  const [text, setText] = useState(JSON.stringify(USDConfig, null, 2));
+  const unifiedStaticState = useContext(UnifiedStaticData);
+  const [text, setText] = useState(JSON.stringify(unifiedStaticState, null, 2));
   const [problems, setProblems] = useState<string | null>();
 
   return (
@@ -80,7 +82,7 @@ export default function UnifiedStaticDataCreator() {
         value={text}
       />
       {problems && <p className="text-red-500 font-bold">{problems}</p>}
-      <p className="text-gray-500 my-2">FSCN or FireStore Collection Name, corresponds with database tables and are directly related to how users interface with the database. Adding a new entry will add a new table to your database when someone adds a task to it. The mapping is used to convert the internal database name to a more human readable name for dropdowns and table headings in the live panel. Subteam mappings are essentially just a list of subteams that are present on your team and are available to chose from in dropdowns and will appear with that name on the live panel; numbers do not necessarily need to be sequential.</p>
+      <p className="text-gray-500 my-2">FSCN or FireStore Collection Name, corresponds with database tables and are directly related to how users interface with the database. Adding a new entry will add a new table to your database when someone adds a task to it. The mapping is used to convert the internal database name to a more human readable name for dropdowns and table headings in the live panel. Subteam mappings are essentially just a list of subteams that are present on your team and are available to chose from in dropdowns and will appear with that name on the live panel; numbers do not necessarily need to be sequential. Do not modify SINNCT, use the dedicated manager for more information and to update it.</p>
       <USD_Encrypter text={text} />
     </div>
   )

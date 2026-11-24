@@ -19,6 +19,7 @@ import Admin from './admin/Admin.tsx';
 import QuickUpdate from './QuickUpdate.tsx';
 import UnifiedStaticDataUpdater from './USD_Updater.tsx';
 import UnifiedStaticDataCreator from './admin/USD_Creator.tsx';
+import SINNCTManagement from './admin/SINNCT_management.tsx';
 import FullUpdate from './FullUpdate.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -40,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="" element={<Admin />}/>
                     <Route path="deviceAuth" element={<DeviceAuth />}/>
                     <Route path="USD_Creator" element={<UnifiedStaticDataCreator />}/>
+                    <Route path="SINNCTManagement" element={<SINNCTManagement />}/>
                   </Route>
                 </Route>
                 <Route path="/" element={<Home />}/>

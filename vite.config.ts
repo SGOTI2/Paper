@@ -12,6 +12,16 @@ const configFile = existsSync(resolve("config.local.ts"))
   ? resolve("config.local.ts")
   : resolve("config.default.ts");
 
+let __MODIFIED__ = "";
+
+try {
+  __MODIFIED__ = process.platform === "win32" 
+    ? execSync('git status --porcelain --untracked-files=yes | find /c /v ""').toString()
+    : execSync("git status --porcelain --untracked-files=yes | wc -l").toString()
+} catch {
+  console.error("Modified execSync failed")
+} 
+
 // https://vite.dev/config/
 export default defineConfig({
   resolve: {
@@ -30,11 +40,7 @@ export default defineConfig({
     __GIT_HASH__: JSON.stringify(
       execSync("git rev-parse --short HEAD").toString().trim()
     ),
-    __MODIFIED__: JSON.stringify(
-      process.platform === "win32" 
-        ? execSync('git status --porcelain --untracked-files=yes | find /c /v ""').toString().trim()
-        : execSync("git status --porcelain --untracked-files=yes | wc -l").toString().trim()
-    ),
+    __MODIFIED__: JSON.stringify(__MODIFIED__.trim()),
     __VERSION__: JSON.stringify(packageConfig.version)
   },
 })

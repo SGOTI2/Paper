@@ -46,6 +46,7 @@ export default function LivePanel({ fscn }: { fscn: string }) {
                   <th className="border border-gray-700 bg-gray-800 py-1 ps-2 w-14">Part</th>
                   <th className="border border-gray-700 bg-gray-800 py-1 ps-2 w-12">QTY</th>
                   <th className="border border-gray-700 bg-gray-800 py-1 ps-2 w-32 lg:w-auto">Due</th>
+                  <th className="border border-gray-700 bg-gray-800 py-1 ps-2 w-32 lg:w-auto">Owner</th>
                 </tr>
               </thead>
               <tbody>
