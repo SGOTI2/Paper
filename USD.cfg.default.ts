@@ -14,5 +14,6 @@ export default {
     "CNC": "Metal CNC",
     "WOOD_LASER": "Laser",
     "SHOP": "Shop",
-  }
+  },
+  SINNCT: {}
 }
