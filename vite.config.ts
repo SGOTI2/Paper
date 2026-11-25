@@ -47,6 +47,7 @@ export default defineConfig({
         "theme_color": "#00FFFF",
         "background_color": "#000000",
         "display": "standalone",
+        "orientation": "landscape",
         "scope": "/",
         "start_url": "/",
         "short_name": "Paper",

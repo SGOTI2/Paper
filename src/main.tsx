@@ -25,6 +25,18 @@ import { TabletGateway } from './tablet/TabletGateway.tsx';
 import TabletLogin from './tablet/TabletLogin.tsx';
 import TabletHome from './tablet/TabletHome.tsx';
 import TabletClaim from './tablet/actions/TabletClaim.tsx';
+import TabletStatusChange from './tablet/actions/TabletStatusChange.tsx';
+
+import { registerSW } from "virtual:pwa-register";
+
+// add this to prompt for a refresh
+const updateSW = registerSW({
+  onNeedRefresh() {
+    if (confirm("New content available. Reload?")) {
+      updateSW(true);
+    }
+  },
+});
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -55,6 +67,7 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="home" element={<TabletHome />}/>
                   <Route path="actions">
                     <Route path="claim" element={<TabletClaim />}/>
+                    <Route path="status" element={<TabletStatusChange />}/>
                   </Route>
                 </Route>
               </Routes>

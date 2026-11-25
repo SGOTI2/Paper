@@ -50,13 +50,13 @@ export default function TabletClaim() {
     <div>
       <h4 className="text-4xl font-semibold mb-3">Is the Part Correct?</h4>
       <div className="flex gap-3">
-        <button className={cnw("p-3 bg-red-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", comfirmed === true)} onClick={() => setComfirmed(false)}>No</button>
-        <button className={cnw("p-3 bg-green-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", comfirmed === false)} onClick={() => setComfirmed(true)}>Yes</button>
+        <button className={cnw("p-3 bg-red-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", comfirmed !== false)} onClick={() => setComfirmed(false)}>No</button>
+        <button className={cnw("p-3 bg-green-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", comfirmed !== true)} onClick={() => setComfirmed(true)}>Yes</button>
       </div>
       <h4 className="text-4xl font-semibold mb-3 mt-12">Are You Starting Now?</h4>
       <div className="flex gap-3">
-        <button className={cnw("p-3 bg-red-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", startingNow === true)} onClick={() => setStartingNow(false)}>No</button>
-        <button className={cnw("p-3 bg-green-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", startingNow === false)} onClick={() => setStartingNow(true)}>Yes</button>
+        <button className={cnw("p-3 bg-red-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", startingNow !== false)} onClick={() => setStartingNow(false)}>No</button>
+        <button className={cnw("p-3 bg-green-500 rounded-xl text-2xl font-bold px-6 cursor-pointer", "opacity-45", startingNow !== true)} onClick={() => setStartingNow(true)}>Yes</button>
       </div>
       <button className="mt-10 p-4 bg-blue-500 rounded-xl text-2xl font-bold px-6 w-full cursor-pointer flex justify-center items-center disabled:opacity-45" disabled={comfirmed !== true || startingNow === null || loading} onClick={claim}>
         {loading ? (

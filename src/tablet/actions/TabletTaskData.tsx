@@ -3,6 +3,7 @@ import { pseudoEnumName } from "../../lib/util";
 import { TaskPriority, TaskStatus, type Task } from "../../lib/Task";
 import LocaleTime from "../../lib/localeTime";
 import { UnifiedStaticData } from "../../lib/unifiedStaticData";
+import { cnw } from "../../lib/tailwindUtil";
 
 export default function TabletTaskData({ task }: { task: Task & { fscn: string } }) {
   const unifiedStaticState = useContext(UnifiedStaticData);
@@ -14,7 +15,17 @@ export default function TabletTaskData({ task }: { task: Task & { fscn: string }
       <tbody>
         <tr>
           <td className="border border-gray-700 p-2">Status</td>
-          <td className="border border-gray-700 p-2" style={{ fontFamily: "JetBrains Mono" }}>{pseudoEnumName(task.status, TaskStatus)}</td>
+          <td 
+            className={cnw(
+              "border border-gray-700 p-2",
+              "bg-red-500/40",    task.status == TaskStatus.NotStarted,
+              "bg-green-500/40",  task.status == TaskStatus.InProgress,
+              "bg-blue-500/40",   task.status == TaskStatus.Done,
+              "bg-yellow-500/40", task.status == TaskStatus.Hold,
+              "bg-gray-500/40",   task.status == TaskStatus.Outdated,
+            )} 
+            style={{ fontFamily: "JetBrains Mono" }}
+          >{pseudoEnumName(task.status, TaskStatus)}</td>
         </tr>
         <tr>
           <td className="border border-gray-700 p-2">Name</td>

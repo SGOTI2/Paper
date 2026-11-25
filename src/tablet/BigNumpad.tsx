@@ -11,7 +11,7 @@ function NumpadButton({ children, onClick, className = "" }: { children: ReactNo
 export default function BigNumpad({defaultNumber, onSubmit}: { defaultNumber: number, onSubmit: (num: number) => void }) {
   const [num, setNumber] = useState<number>(defaultNumber);
 
-  return <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 w-120 max-h-full aspect-5/8" style={{ fontFamily: "JetBrains Mono" }}>
+  return <div className="rounded-xl border border-gray-700 bg-gray-900 p-6 w-100 max-h-full aspect-5/8" style={{ fontFamily: "JetBrains Mono" }}>
     <input 
       className="w-full text-9xl my-6 mt-2 text-center"
       type="number" 
