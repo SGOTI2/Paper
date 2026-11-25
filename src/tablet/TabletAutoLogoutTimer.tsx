@@ -30,8 +30,6 @@ export default function TabletAutoLogoutTimer() {
         hasCompleted.current = true;
         onCountdownComplete();
       }
-
-      if (!tabletContext.SID) onCountdownComplete();
     };
 
     updateCountdown();

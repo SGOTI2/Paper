@@ -6,6 +6,7 @@ import { execSync } from 'node:child_process';
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { viteSingleFile } from "vite-plugin-singlefile";
+import { VitePWA } from "vite-plugin-pwa";
 import packageConfig from "./package.json";
 
 const configFile = existsSync(resolve("config.local.ts"))
@@ -33,7 +34,48 @@ export default defineConfig({
     react(),
     tailwindcss(),
     babel({ presets: [reactCompilerPreset()] }),
-    viteSingleFile()
+    viteSingleFile(),
+    VitePWA({
+      workbox: {
+        globPatterns: ["**/*"],
+        maximumFileSizeToCacheInBytes: 2**32
+      },
+      includeAssets: [
+        "**/*",
+      ],
+      manifest: {
+        "theme_color": "#00FFFF",
+        "background_color": "#000000",
+        "display": "standalone",
+        "scope": "/",
+        "start_url": "/",
+        "short_name": "Paper",
+        "description": "Parts And Production Electronic Resource",
+        "name": "Paper",
+        "icons": [
+          {
+            "src": "/favicon.svg",
+            "sizes": "192x192",
+            "type": "image/svg"
+          },
+          {
+            "src": "/favicon.svg",
+            "sizes": "256x256",
+            "type": "image/svg"
+          },
+          {
+            "src": "/favicon.svg",
+            "sizes": "384x384",
+            "type": "image/svg"
+          },
+          {
+            "src": "/favicon.svg",
+            "sizes": "512x512",
+            "type": "image/svg"
+          }
+        ],
+      },
+    })
   ],
   define: {
     __BUILD_TIME__: JSON.stringify(new Date().getTime()),
